@@ -49,7 +49,7 @@ function move () {
         if ((ind.y + ind.raio) > cnv.height) ind.y = cnv.height - ind.raio, ind.vtY *= -1, ind.vtY += ind.y / 350
         // if ((ind.x + ind.raio) > cnv.width || (ind.x - ind.raio) < 0) {
         //     if ((ind.x - ind.raio) < 0) ind.x = ind.raio
-        //     if ((ind.x + ind.raio) >= cnv.width) ind.x = cnv.width - ind.raio, ind.vtX += 1, ind.vtX *= -1
+        //     if ((ind.x + ind.raio) >= cnv.width) ind.x = cnv.width - ind.raio, ind.vtX += 1, ind.vtX *= -1 ;
         // }
     }
 }
