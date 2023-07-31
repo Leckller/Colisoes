@@ -1,8 +1,8 @@
 const cnv = document.querySelector('canvas')
 const ctx = cnv.getContext('2d')
 
-const gravidade = 0.5
-
+cnv.width = innerWidth - 6
+cnv.height = innerHeight - 6
 // x, y, cor, raio, sentido
 
 function geradorDeBola(x, y, color, raio, sentido = true) {
@@ -21,7 +21,7 @@ cnv.addEventListener('mousedown', ({ offsetX, offsetY }) => {
     bolasCriadas.find(({ x, y, raio, helding, cor }) => {
         const cat1 = x - offsetX
         const cat2 = y - offsetY
-        const hyp = Math.sqrt((cat1 ** 2) + (cat2 ** 2))
+        const hyp = Math.hypot(cat1, cat2)
         if (hyp < raio) selected = cor, bolasCriadas.find((e) => {
             if (e.cor === selected) e.helding = true
         })
@@ -61,7 +61,7 @@ function geradorAutomatico(quantidade, sentido = true) {
     }
 }
 
-console.log(bolasCriadas)
+// console.log(bolasCriadas)
 
 function recreate() {
     ctx.clearRect(0, 0, cnv.width, cnv.height)
@@ -71,23 +71,49 @@ function recreate() {
     })
 }
 
+
 function move() {
     for (let i = 0; i < bolasCriadas.length; i += 1) {
-        const ind = bolasCriadas[i]
-        if (!ind.helding) {
-            ind.vtY += gravidade
-            ind.y += ind.vtY
-            ind.x += ind.vtX
-            if ((ind.y + ind.raio) > cnv.height) ind.y = cnv.height - ind.raio, ind.vtY *= -1, ind.vtY += ind.y / 1000
-            if ((ind.x + ind.raio) > cnv.width || (ind.x - ind.raio) < 0) {
-                if ((ind.x - ind.raio) < 0) ind.x = ind.raio, ind.x += ind.vtX *= -1
-                if ((ind.x + ind.raio) > cnv.width) ind.x = cnv.width - ind.raio, ind.x += ind.vtX *= -1
+        const e = bolasCriadas[i]
+        let gravidade = Math.round(Math.random() * 1 + 0.2)
+        if (!e.helding) {
+            e.vtY += gravidade
+            e.y += e.vtY
+            e.x += e.vtX
+            if ((e.y + e.raio) > cnv.height) e.y = cnv.height - e.raio, e.vtY *= -1, e.vtY += e.y / 350
+            if ((e.y - e.raio) < 0) e.y = 0 + e.raio, e.vtY *= -1, e.vtY -= e.y / 350
+            if ((e.x + e.raio) > cnv.width || (e.x - e.raio) < 0) {
+                if ((e.x - e.raio) < 0) e.x = e.raio, e.x += e.vtX *= -1
+                if ((e.x + e.raio) > cnv.width) e.x = cnv.width - e.raio, e.x += e.vtX *= -1
+            }
+            for (let i2 = 0; i2 < bolasCriadas.length; i2 += 1) {
+                const e2 = bolasCriadas[i2]
+                if (e2 != e) {
+                    const cat1 = e.x - e2.x
+                    const cat2 = e.y - e2.y
+                    const hyp = Math.hypot(cat1, cat2)
+                    // console.log(hyp)
+                    if (hyp < (e.raio + e2.raio + 0.3)) {
+                        e.vtX = 0
+                        e2.vtX= 0
+                        if (e.y - e.raio < e2.y + e2.raio || e2.y - e2.raio < e.y + e.raio) {
+                            e.vtY *= -1
+                            e2.vtY *= -1
+                            e.y = e.y
+                            e2.y = e2.y
+                            console.log(e.vtY, e2.vtY)
+                        }
+                        console.log('pimba')
+                        // console.log(e.vtX)
+                    }
+                }
             }
         }
+
     }
 }
 
-geradorAutomatico(200, true)
+geradorAutomatico(10, true)
 
 function loop() {
     window.requestAnimationFrame(loop)
