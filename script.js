@@ -47,7 +47,7 @@ cnv.addEventListener('mousemove', ({ offsetX, offsetY }) => {
 
 function geradorAutomatico(quantidade, sentido = true) {
     for (let i = 0; i < quantidade; i += 1) {
-        const raio = Math.round(Math.random() * 90 + 10)
+        const raio = Math.round(Math.random() * 190 + 10)
         let x = Math.floor(Math.random() * cnv.width)
         let y = Math.floor(Math.random() * cnv.height)
         const vtX = Math.floor(Math.random() * 10 + 1)
@@ -93,19 +93,19 @@ function move() {
                     const cat2 = e.y - e2.y
                     const hyp = Math.hypot(cat1, cat2)
                     // console.log(hyp)
-                    if (hyp < (e.raio + e2.raio + 0.3)) {
-                        e.vtX = 0
-                        e2.vtX= 0
-                        if (e.y - e.raio < e2.y + e2.raio || e2.y - e2.raio < e.y + e.raio) {
-                            e.vtY *= -1
-                            e2.vtY *= -1
-                            e.y = e.y
-                            e2.y = e2.y
-                            console.log(e.vtY, e2.vtY)
-                        }
-                        console.log('pimba')
-                        // console.log(e.vtX)
-                    }
+                    // if (hyp < (e.raio + e2.raio + 0.3)) {
+                    //     e.vtX = 0
+                    //     e2.vtX= 0
+                    //     if (e.y - e.raio < e2.y + e2.raio || e2.y - e2.raio < e.y + e.raio) {
+                    //         e.vtY *= -1
+                    //         e2.vtY *= -1
+                    //         e.y = e.y
+                    //         e2.y = e2.y
+                    //         console.log(e.vtY, e2.vtY)
+                    //     }
+                    //     console.log('pimba')
+                    //     // console.log(e.vtX)
+                    // }
                 }
             }
         }
@@ -113,7 +113,7 @@ function move() {
     }
 }
 
-geradorAutomatico(10, true)
+geradorAutomatico(100, true)
 
 function loop() {
     window.requestAnimationFrame(loop)
@@ -123,4 +123,4 @@ function loop() {
 
 window.onload = () => {
     loop()
-}
+} 
